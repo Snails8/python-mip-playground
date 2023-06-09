@@ -9,4 +9,6 @@ async def main() -> Dict[str, str]:
   
   json = usecase()
   
+  with open('src/solution.json', 'w') as f:
+    f.write(json)
   return json
