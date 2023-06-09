@@ -29,7 +29,12 @@ def solve_problem(df: pd.DataFrame, days:int, daily_budget: float, nutrients: Di
   
   # 制約：各日、各食事の価格が一日の予算以下であること
   for d in range(days):
-    m += xsum(df.iloc[j]['price_a'] * x[d][i][j] for i in range(3) for j in range(len(df))) <= daily_budget
+    m += xsum(df.iloc[j]['price_a'] * x[d][i][j] for i in range(MEAL_PER_DAY) for j in range(len(df))) <= daily_budget
+  
+  # 各食において主菜は必ず一個以上
+  for d in range(days):
+    for i in range(MEAL_PER_DAY):
+      m += xsum(x[d][i][j] for j in df[df['cat_M'] == "主菜"].index) == 1
 
 
   # 制約：各日、各食事の各栄養素が目標範囲（目標値の90%から110%）内に収まること

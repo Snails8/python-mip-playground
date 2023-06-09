@@ -7,11 +7,11 @@ def usecase():
   
   df = pd.read_csv('data/target.csv')
   days = 7
-  daily_budget = 330*3
+  daily_budget = 500*3
   nutrients = {
-    'protein': 20*3, 
-    'carb': 80*3,
-    'fat': 20*3,
+    'protein': 40*3, 
+    'carb': 100*3,
+    'fat': 40*3,
   }
   
   
