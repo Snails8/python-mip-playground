@@ -1,6 +1,7 @@
 import pandas as pd
 import json
 from src.solver.solve_problem import solve_problem
+import numpy as np
 
 def usecase():
   
@@ -17,4 +18,11 @@ def usecase():
   solution = solve_problem(df, days, daily_budget, nutrients,)
 
   # Return the solution in JSON format
-  return json.dumps(solution)
+  return json.dumps(solution, cls=MyEncoder, indent=2, ensure_ascii=False)
+
+# カスタムエンコーダー
+class MyEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.int64):
+            return int(obj)
+        return super(MyEncoder, self).default(obj)
