@@ -36,13 +36,16 @@ def solve_problem(df: pd.DataFrame, days:int, daily_budget: float, nutrients: Di
     for i in range(MEAL_PER_DAY):
       m += xsum(x[d][i][j] for j in df[df['cat_M'] == "主菜"].index) == 1
 
+  # 同じ商品を含まない制約
+  for j in df.index:
+    m += xsum(x[d][i][j] for d in range(days) for i in range(MEAL_PER_DAY)) <= 1
 
-  # 制約：各日、各食事の各栄養素が目標範囲（目標値の90%から110%）内に収まること
-  # for d in range(days):
-  #   for i in range(3):
-  #     for n in nutrients:
-  #       m += xsum(df.iloc[j][n] * x[d][i][j] for j in range(len(df))) >= nutrients[n] * 0.9
-  #       m += xsum(df.iloc[j][n] * x[d][i][j] for j in range(len(df))) <= nutrients[n] * 1.1
+  # 制約：各日、各食事の各栄養素が目標範囲（目標値の70%から130%）内に収まること(実行重い)
+  for d in range(days):
+    for i in range(3):
+      for n in nutrients:
+        m += xsum(df.iloc[j][n] * x[d][i][j] for j in range(len(df))) >= nutrients[n] * 0.7 - 10
+        m += xsum(df.iloc[j][n] * x[d][i][j] for j in range(len(df))) <= nutrients[n] * 1.3 + 10
 
   # 目的関数は全ての日、全ての食事の価格の合計を最小化すること
   m.objective = xsum(df.iloc[j]['price_a'] * x[d][i][j] for j in range(len(df)) for d in range(days) for i in range(3))

@@ -9,9 +9,9 @@ def usecase():
   days = 7
   daily_budget = 500*3
   nutrients = {
-    'protein': 40*3, 
-    'carb': 100*3,
-    'fat': 40*3,
+    'protein': 10*3, 
+    'carb': 20*3,
+    'fat': 10*3,
   }
   
   
